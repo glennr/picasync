@@ -28,9 +28,9 @@ declare some constants:
 
 [RAILS_ROOT]
 PICASA_ASSETS_PATH = [sync'd images saved here]
-PICASA_EMAIL = 
-PICASA_PASS = 
-PICASA_USER = 
+GOOGLE_EMAIL = 
+GOOGLE_PASS = 
+GOOGLE_USER = 
 
 Create a new album on Picasa and return its google id.
 
