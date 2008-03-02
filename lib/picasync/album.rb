@@ -12,15 +12,16 @@ module Picasync
 
   class Album
 
-    attr_reader :id, :title, :images, :updated_at, :edit_uri, :cover, :asset_count
-    attr_writer :id, :title, :images, :updated_at, :edit_uri, :cover, :asset_count
+    attr_reader :id, :title, :images, :updated_at, :edit_uri, :cover, :cover_uri, :asset_count
+    attr_writer :images
     
 
     def initialize(title=nil,id=nil,edit_uri=nil,count=nil,cover=nil,images=[],updated_at=nil)
       @title = title
       @id = id
       @edit_uri = edit_uri
-      @cover = cover
+      @cover = "#{Digest::SHA2.hexdigest(cover).split('')[0..11].join('')}.jpg"
+      @cover_uri = cover
       @asset_count = count
       @images = images
       @updated_at = updated_at
