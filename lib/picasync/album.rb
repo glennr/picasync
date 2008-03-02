@@ -33,6 +33,10 @@ module Picasync
       when :all
         items = []
         doc = Call.new('get',"/data/feed/api/user/#{PICASA_USER}?kind=album").response
+        if (doc/"link[@rel='edit']").nil?
+          Session.new
+          doc = Call.new('get',"/data/feed/api/user/#{PICASA_USER}?kind=album").response
+        end
         (doc/:entry).each do |entry|
           item = {}
           item[:title] = entry.at(:title).inner_text
