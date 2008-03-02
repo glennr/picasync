@@ -33,7 +33,7 @@ module Picasync
 
     def self.find(param, id=nil)
       ids = []
-      doc = Call.new('get',"/data/feed/api/user/#{PICASA_USER}/albumid/#{id}?kind=photo").response
+      doc = Call.new('get',"/data/feed/api/user/#{GOOGLE_USER}/albumid/#{id}?kind=photo").response
       (doc/:entry).each {|entry|
         ids << entry.at("gphoto:id").inner_text
       }

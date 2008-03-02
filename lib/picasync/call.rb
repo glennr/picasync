@@ -15,7 +15,7 @@ module Picasync
     attr_writer :response, :status, :retries
 
 
-    def initialize(method,request,user=PICASA_USER)
+    def initialize(method,request,user=GOOGLE_USER)
       @response = nil
       @request = request.to_s
       @user = user

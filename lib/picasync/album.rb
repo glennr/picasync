@@ -32,10 +32,10 @@ module Picasync
       case param
       when :all
         items = []
-        doc = Call.new('get',"/data/feed/api/user/#{PICASA_USER}?kind=album").response
+        doc = Call.new('get',"/data/feed/api/user/#{GOOGLE_USER}?kind=album").response
         if (doc/"link[@rel='edit']").nil?
           Session.new
-          doc = Call.new('get',"/data/feed/api/user/#{PICASA_USER}?kind=album").response
+          doc = Call.new('get',"/data/feed/api/user/#{GOOGLE_USER}?kind=album").response
         end
         (doc/:entry).each do |entry|
           item = {}
@@ -58,7 +58,7 @@ module Picasync
    
 
     def self.find_by_id(id)
-      doc = Call.new('get',"/data/entry/api/user/#{PICASA_USER}/albumid/#{id}").response
+      doc = Call.new('get',"/data/entry/api/user/#{GOOGLE_USER}/albumid/#{id}").response
       if doc == 404
         found = "Album #{id} not found on this account"
       else
@@ -77,7 +77,7 @@ module Picasync
     
     def self.find_by_title(param)
       title = param.gsub(/\s/){}
-      doc = Call.new('get',"/data/entry/api/user/#{PICASA_USER}/album/#{title}").response
+      doc = Call.new('get',"/data/entry/api/user/#{GOOGLE_USER}/album/#{title}").response
       if doc == 404
         found = "Album #{title} not found on this account"
       else
@@ -111,7 +111,7 @@ module Picasync
     private
 
     def get_edit_uri
-      doc = Call.new('get',"/data/entry/api/user/#{PICASA_USER}/albumid/#{@id}").response
+      doc = Call.new('get',"/data/entry/api/user/#{GOOGLE_USER}/albumid/#{@id}").response
       unless (doc/"link[@rel='edit']")[0].nil?
         @edit_uri = (doc/"link[@rel='edit']")[0].attributes['href']
       end
@@ -121,7 +121,7 @@ module Picasync
 
     def fetch_set
       items = []
-      doc = Call.new('get',"/data/feed/api/user/#{PICASA_USER}?kind=album").response
+      doc = Call.new('get',"/data/feed/api/user/#{GOOGLE_USER}?kind=album").response
       (doc/:entry).each do |entry|
         item = {}
         item[:title] = entry.at(:title).inner_text

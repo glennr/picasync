@@ -11,9 +11,9 @@ module Picasync
     attr_reader :token
 
 
-    def initialize(email=PICASA_EMAIL,password=PICASA_PASS)
-      @email = PICASA_EMAIL
-      @password = PICASA_PASS
+    def initialize(email=GOOGLE_EMAIL,password=PICASA_PASS)
+      @email = GOOGLE_EMAIL
+      @password = GOOGLE_PASS
       @client=WWW::Mechanize.new.post("https://www.google.com/accounts/ClientLogin", {"accountType"=>"GOOGLE","Email"=>email,"Passwd"=>password,"service"=>"lh2","source"=>"Picasync-App-1"})
       @token=@client.body.split(' ')[2].gsub(/Auth=/){}
       cookie = File.new("#{RAILS_ROOT}/lib/picasync/files/session.token","w+")
