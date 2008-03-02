@@ -11,7 +11,7 @@ module Picasync
     attr_reader :token
 
 
-    def initialize(email=GOOGLE_EMAIL,password=PICASA_PASS)
+    def initialize(email=GOOGLE_EMAIL,password=GOOGLE_PASS)
       @email = GOOGLE_EMAIL
       @password = GOOGLE_PASS
       @client=WWW::Mechanize.new.post("https://www.google.com/accounts/ClientLogin", {"accountType"=>"GOOGLE","Email"=>email,"Passwd"=>password,"service"=>"lh2","source"=>"Picasync-App-1"})
