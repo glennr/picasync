@@ -61,7 +61,7 @@ module Picasync
           img[size.to_sym] = "#{Digest::SHA2.hexdigest(uri).split('')[0..11].join('')}.jpg"
         end
         uri = entry.at("media:content").attributes['url']
-        large_uri = uri
+        large_uri = "#{uri}?imgmax=800"
         large = "#{Digest::SHA2.hexdigest(uri).split('')[0..11].join('')}.jpg"
         timestamp = entry.at("gphoto:timestamp").inner_text
         updated_at = entry.at(:updated).inner_text

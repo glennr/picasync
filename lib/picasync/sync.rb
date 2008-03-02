@@ -66,6 +66,8 @@ module Picasync
             row << index+1
             row << "#{image.id}"
             row << "#{image.updated_at}"
+            row << image.title
+            row << image.caption
             row << image.tiny
             row << image.small
             row << image.medium

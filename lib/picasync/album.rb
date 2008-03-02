@@ -12,14 +12,16 @@ module Picasync
 
   class Album
 
-    attr_reader :id, :title, :images, :updated_at, :edit_uri
-    attr_writer :id, :title, :images, :updated_at, :edit_uri
+    attr_reader :id, :title, :images, :updated_at, :edit_uri, :cover, :asset_count
+    attr_writer :id, :title, :images, :updated_at, :edit_uri, :cover, :asset_count
     
 
-    def initialize(title=nil,id=nil,edit_uri=nil,images=[],updated_at=nil)
+    def initialize(title=nil,id=nil,edit_uri=nil,count=nil,cover=nil,images=[],updated_at=nil)
       @title = title
       @id = id
       @edit_uri = edit_uri
+      @cover = cover
+      @asset_count = count
       @images = images
       @updated_at = updated_at
     end
@@ -34,6 +36,8 @@ module Picasync
           item = {}
           item[:title] = entry.at(:title).inner_text
           item[:updated_at] = entry.at(:updated).inner_text
+          item[:cover] = entry.at("media:thumbnail").attributes['url']
+          item[:count] = entry.at("gphoto:numphotos").inner_text
           item[:id] = entry.at(:id).inner_text.gsub(/^.*\/|\?.*$/){}
           item[:edit_uri] = (doc/"link[@rel='edit']")[0].attributes['href']
           item[:images] = Image.find(:all, item[:id]) if param2 == :images
@@ -42,7 +46,7 @@ module Picasync
       end
       found = []
       items.each do |entry|
-        found << Album.new(entry[:title],entry[:id],entry[:edit_uri],entry[:images],entry[:updated_at])
+        found << Album.new(entry[:title],entry[:id],entry[:edit_uri],entry[:count],entry[:cover],entry[:images],entry[:updated_at])
       end
       found
     end
@@ -56,10 +60,12 @@ module Picasync
         entry = {}
         entry[:title] = doc.at(:title).inner_text
         entry[:updated_at] = doc.at(:updated).inner_text
+        entry[:cover] = doc.at("media:thumbnail").attributes['url']
+        entry[:count] = doc.at("gphoto:numphotos").inner_text
         entry[:id] = doc.at(:id).inner_text.gsub(/^.*\/|\?.*$/){}
         entry[:edit_uri] = (doc/"link[@rel='edit']")[0].attributes['href']
         entry[:images] = Image.find(:all, entry[:id])
-        found = Album.new(entry[:title],entry[:id],entry[:edit_uri],entry[:images],entry[:updated_at])
+        found = Album.new(entry[:title],entry[:id],entry[:edit_uri],entry[:count],entry[:cover],entry[:images],entry[:updated_at])
       end
       found
     end
@@ -74,9 +80,11 @@ module Picasync
         entry[:title] = doc.at(:title).inner_text
         entry[:updated_at] = doc.at(:updated).inner_text
         entry[:id] = doc.at(:id).inner_text.gsub(/^.*\/|\?.*$/){}
+        entry[:cover] = doc.at("media:thumbnail").attributes['url']
+        entry[:count] = doc.at("gphoto:numphotos").inner_text
         entry[:edit_uri] = (doc/"link[@rel='edit']")[0].attributes['href']
         entry[:images] = Image.find(:all, entry[:id])
-        found = Album.new(entry[:title],entry[:id],entry[:edit_uri],entry[:images],entry[:updated_at])
+        found = Album.new(entry[:title],entry[:id],entry[:edit_uri],entry[:count],entry[:cover],entry[:images],entry[:updated_at])
       end
       found
     end
